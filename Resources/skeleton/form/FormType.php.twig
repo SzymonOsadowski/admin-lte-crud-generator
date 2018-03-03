@@ -1,0 +1,127 @@
+<?php
+
+namespace {{ namespace }}\Form{{ entity_namespace ? '\\' ~ entity_namespace : '' }};
+
+{% block use_statements %}
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+
+{% endblock use_statements %}
+
+{% block class_definition %}
+class {{ form_class }} extends AbstractType
+{% endblock class_definition %}
+{
+{% block class_body %}
+    {%- if fields|length > 0 %}
+    /**
+     * {@inheritdoc}
+     */
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        $builder
+             {%- for field, metadata in fields -%}
+             {%- if field == 'id' or field == 'isActive' or field == 'creationDate' or field == 'editDate' %}
+             {%- elseif metadata.type == 'datetime' %}
+
+                ->add('{{ field }}', DateTimeType::class, array(
+                    'widget' => 'single_text',
+                    'html5' => false,
+                    'date_format' => 'dd-MM-yyyy HH:mm',
+                    'label_format' => 'form.{{ entity_singularized|lower }}.{{ field }}',
+                    'attr' => array(
+                        'class'=>'datetimepicker'
+                    )
+                ))
+
+             {%- elseif metadata.type == 'date' %}
+
+                ->add('{{ field }}', DateType::class, array(
+                    'widget' => 'single_text',
+                    'html5' => false,
+                    'format' => 'dd-MM-yyyy',
+                    'label_format' => 'form.{{ entity_singularized|lower }}.{{ field }}',
+                    'attr' => array(
+                        'class'=>'datepicker'
+                    )
+                ))
+
+             {%- elseif metadata.type == 'time' %}
+
+                ->add('{{ field }}', DateType::class, array(
+                    'widget' => 'single_text',
+                    'html5' => false,
+                    'label_format' => 'form.{{ entity_singularized|lower }}.{{ field }}',
+                    'attr' => array(
+                        'class'=>'timepicker'
+                    )
+                ))
+             {%- elseif metadata.type == 'string' %}
+
+                 ->add('{{ field }}', TextType::class, array(
+                    'label_format' => 'form.{{ entity_singularized|lower }}.{{ field }}',
+                 ))
+             {%- elseif metadata.type == 'text' %}
+
+                 ->add('{{ field }}', TextareaType::class, array(
+                    'label_format' => 'form.{{ entity_singularized|lower }}.{{ field }}',
+                 ))
+             {%- elseif metadata.type == 'integer' %}
+
+                 ->add('{{ field }}', IntegerType::class, array(
+                    'label_format' => 'form.{{ entity_singularized|lower }}.{{ field }}',
+                 ))
+             {%- elseif metadata.type == 'boolean' %}
+
+                 ->add('{{ field }}', CheckboxType::class, array(
+                    'label_format' => 'form.{{ entity_singularized|lower }}.{{ field }}',
+                 ))
+
+             {%- else %}
+
+                ->add('{{ field }}')
+
+             {%- endif %}
+
+             {%- endfor %};
+    }
+    {%- endif -%}
+
+    /**
+     * {@inheritdoc}
+     */
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults(array(
+            'data_class' => '{{ namespace }}\Entity{{ entity_namespace ? '\\' ~ entity_namespace : '' }}\{{ entity_class }}'
+        ));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getBlockPrefix()
+    {
+        return '{{ form_type_name }}';
+    }
+
+{# BC with Symfony 2.7 #}
+{%- if get_name_required %}
+    /**
+     * {@inheritdoc}
+     */
+    public function getName()
+    {
+        return $this->getBlockPrefix();
+    }
+{% endif %}
+
+{% endblock class_body %}
+}

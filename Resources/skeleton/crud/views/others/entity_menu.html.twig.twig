@@ -1,0 +1,12 @@
+<li class="treeview">
+    <a href="#">
+        <i class="fa fa-dashboard"></i> <span>{{ "{% trans %}" }}menu.title.{{ entity_singularized }}{{ "{% endtrans %}" }}</span>
+        <span class="pull-right-container">
+            <i class="fa fa-angle-left pull-right"></i>
+        </span>
+    </a>
+    <ul class="treeview-menu">
+        <li class="active"><a href="{{ "{{ path('" ~ route_name_prefix ~ "_index') }}" }}"><i class="fa fa-circle-o"></i>{{ "{% trans %}" }}index.{{ entity_singularized }}{{ "{% endtrans %}" }}</a></li>
+        <li><a href="{{ "{{ path('" ~ route_name_prefix ~ "_new') }}" }}"><i class="fa fa-circle-o"></i>{{ "{% trans %}" }}create.new.{{ entity_singularized }}{{ "{% endtrans %}" }}</a></li>
+    </ul>
+</li>

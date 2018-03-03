@@ -1,0 +1,6 @@
+<ul class="sidebar-menu" data-widget="tree">
+    <li class="header">{{ "{% trans %}" }}main.navigation.title{{ "{% endtrans %}" }}</li>
+    {% for menu in menus %}
+    {{ "{% include 'menu/"}}{{  menu.relativePathname }}{{ "' %}" }}
+    {% endfor %}
+</ul>

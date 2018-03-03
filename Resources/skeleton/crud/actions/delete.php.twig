@@ -1,0 +1,60 @@
+
+    /**
+{% block phpdoc_method_header %}
+     * Soft deletes a {{ entity_singularized }} entity.
+{% endblock phpdoc_method_header %}
+     *
+{% block phpdoc_method_annotations %}
+{% if 'annotation' == format %}
+     * @Route("/{{ '{' ~ identifier ~ '}' }}/delete", name="{{ route_name_prefix }}_delete")
+{% endif %}
+{% endblock phpdoc_method_annotations %}
+     */
+{% block method_definition %}
+    public function deleteAction(Request $request, {{ entity_class }} ${{ entity_singularized }})
+{% endblock method_definition %}
+    {
+{% block method_body %}
+        $em = $this->getDoctrine()->getManager();
+        ${{ entity_singularized}}->setIsActive(false);
+        $em->flush();
+
+{% endblock method_body %}
+
+{% block method_return %}
+        return $this->redirectToRoute('{{ route_name_prefix }}_index');
+{% endblock method_return %}
+    }
+
+
+    /**
+    * Undelete soft a {{ entity_singularized }} entity.
+    *
+    {% if 'annotation' == format %}
+        * @Route("/{{ '{' ~ identifier ~ '}' }}/undelete", name="{{ route_name_prefix }}_undelete")
+    {% endif %}
+    */
+    public function unDeleteAction(Request $request, {{ entity_class }} ${{ entity_singularized }})
+    {
+        $em = $this->getDoctrine()->getManager();
+        ${{ entity_singularized}}->setIsActive(true);
+        $em->flush();
+
+    return $this->redirectToRoute('{{ route_name_prefix }}_index');
+    }
+
+    /**
+    * Hard delete a {{ entity_singularized }} entity.
+    *
+    {% if 'annotation' == format %}
+        * @Route("/{{ '{' ~ identifier ~ '}' }}/hard-delete", name="{{ route_name_prefix }}_hard_delete")
+    {% endif %}
+    */
+        public function hardDeleteAction(Request $request, {{ entity_class }} ${{ entity_singularized }})
+    {
+        $em = $this->getDoctrine()->getManager();
+        $em->remove(${{ entity_singularized }});
+        $em->flush();
+
+    return $this->redirectToRoute('{{ route_name_prefix }}_index');
+    }

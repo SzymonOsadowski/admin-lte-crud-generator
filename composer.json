@@ -1,0 +1,42 @@
+{
+    "name": "szo/generator-bundle-admin-lte",
+    "description": "This bundle generates code integrated with AdminLte",
+    "keywords": [],
+    "type": "symfony-bundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Fabien Potencier",
+            "email": "fabien@symfony.com"
+        },
+        {
+            "name": "Szymon Osadowski",
+            "email": "szymon.osadowski@gmail.com"
+        }
+    ],
+    "require": {
+        "symfony/framework-bundle": "~2.7|~3.0",
+        "symfony/console": "~2.7|~3.0",
+        "symfony/process": "~2.7|~3.0",
+        "symfony/yaml": "~2.7|~3.0",
+        "twig/twig": "^1.28.2|^2.0"
+    },
+    "require-dev": {
+        "symfony/doctrine-bridge": "~2.7|~3.0",
+        "symfony/filesystem": "~2.7|~3.0",
+        "symfony/phpunit-bridge": "^3.3",
+        "doctrine/orm": "~2.4"
+    },
+    "autoload": {
+        "psr-4": { "Sensio\\Bundle\\GeneratorBundle\\": "" },
+        "exclude-from-classmap": [
+            "/Tests/"
+        ]
+    },
+    "minimum-stability": "dev",
+    "extra": {
+        "branch-alias": {
+            "dev-master": "3.1.x-dev"
+        }
+    }
+}

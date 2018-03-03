@@ -1,0 +1,10 @@
+<div class="pull-right">
+                <a href="{{ "{{ path('" ~ route_name_prefix ~ "_index') }}" }}" class="btn btn-info">{{ "{% trans %}" }}back.to.list{{ "{% endtrans %}" }}</a>
+                {%- if ('edit' in actions) and (not hide_edit) %}
+                    <a href="{{ "{{ path('" ~ route_name_prefix ~ "_edit', { '"~ identifier ~"': " ~ entity_singularized ~ "."~ identifier ~" }) }}" }}" class="btn btn-warning">{{ "{% trans %}" }}Edit{{ "{% endtrans %}" }}</a>
+                {%- endif %}
+
+                {%- if ('show' in actions) and (not hide_show) %}
+                    <a href="{{ "{{ path('" ~ route_name_prefix ~ "_show', { '"~ identifier ~"': " ~ entity_singularized ~ "."~ identifier ~" }) }}" }}" class="btn btn-info">{{ "{% trans %}" }}Show{{ "{% endtrans %}" }}</a>
+                {%- endif %}
+            </div>
